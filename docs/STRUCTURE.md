@@ -14,8 +14,10 @@ src/
     layout/                 Logo, TopBar (logo + title + status pill), Footer
     ui/                     Section, Metric, Table, ExternalLink, StatusPill, Split
     charts/                 SpeedBars, DailyBars, niceTicks
-    network/                the home page's parts (status, stat tiles, daily, disputes, volume)
-    soak/                   Report, Scorecard, Operators, Bridges, Disputes, Performance, Incidents, Unavailable
+    network/                the home page's parts: NetworkStatus, StatTiles, DailyBridges, DisputeOutcomes,
+                            DisputeList (the soak page reuses it), VolumePerToken
+    soak/                   Report, SoakStatus, Scorecard, Operators, Bridges, Disputes, Performance, Incidents,
+                            Unavailable
   lib/
     config.ts               the relayer base URL default, the fetch timeout and the revalidate times (one place)
     api/                    http.ts (fetch JSON with a timeout, to a result), network-stats.ts,
@@ -23,11 +25,12 @@ src/
     format/                 numbers, dates, chains (one chainName), explorer (links and address shapes), text
     network/                types.ts, parse.ts, view.ts (dispute rows, fillDaily)
     soak/                   types.ts, parse.ts, labels.ts, csv.ts
-  styles/                   globals.css split into files, imported in the original order
+  styles/                   tokens.css, base.css, layout/{top-bar,footer}.css, ui/{metric,section,split-rows,table}.css,
+                            charts/{speed-bars,daily-bars}.css, soak/report.css, responsive.css
 tests/
   lib/{api,format,network,soak}/*.spec.ts   mirror src/lib
   app/soak/csv-routes.spec.ts               the two CSV route handlers
-  fixtures/                                 network-stats.ts, soak-snapshot.ts
+  fixtures/                                 network-stats.ts, soak-snapshot.ts, stub-fetch.ts
 ```
 
 ## What goes where
@@ -41,7 +44,8 @@ tests/
   dates, chain names, explorer links, short ids); `network/` and `soak/` are each endpoint's types, parsing and labels.
 - `src/styles`: one file per area. The cascade is order-sensitive (the responsive blocks at the end override rules from
   every area, and `.stats--inset` must follow `.stats`), so the files are cut from `globals.css` in its own order, and
-  `src/app/globals.css` imports them in that order. Some areas therefore have more than one file.
+  `src/app/globals.css` imports them in that order. Some areas therefore have more than one file, and there is no
+  `network` stylesheet: the home page only uses shared classes.
 - `tests`: one spec per lib module, same path under `tests/lib`.
 
 ## Imports
@@ -59,7 +63,8 @@ keeps relative imports with the `.ts` extension, as it does today.
 - `updatedText` (home) and `timeText` (soak) printed the same "11 Nov 2026, 08:53 UTC": now one `timeText`.
 - The dispute keys list (twice): now `network/types.ts`.
 
-The two parsers keep their own small type guards: the soak one rejects arrays where the network one does not, and
+Kept on purpose: the volume list is written once per page, because the two differ in their empty states and React
+keys, and sharing it would change the page's RSC payload. The two parsers keep their own small type guards: the soak one rejects arrays where the network one does not, and
 merging them would change what each accepts.
 
 ## Move map
