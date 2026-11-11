@@ -70,7 +70,7 @@ export function durationText(s: number | null): string {
 const DISPUTE_KEYS = ["MutualRefund", "BridgerForfeit", "MakerForfeit", "TradeProceeds", "Resolved", "open"] as const
 
 // Names match apps/frontend/lib/dispute.ts DISPUTE_OUTCOME_TEXT; Resolved is a dispute that ended with no ruling.
-const DISPUTE_LABELS: Record<(typeof DISPUTE_KEYS)[number], string> = {
+export const DISPUTE_LABELS: Record<(typeof DISPUTE_KEYS)[number], string> = {
   MutualRefund: "Mutual refund",
   BridgerForfeit: "Bridger forfeit",
   MakerForfeit: "Maker forfeit",
