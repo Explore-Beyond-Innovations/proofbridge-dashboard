@@ -1,0 +1,33 @@
+/* Network switch: a segmented pill in the top bar, the current network filled. */
+.switch {
+  display: inline-flex;
+  gap: 2px;
+  min-height: 36px;
+  padding: 3px;
+  border: 1px solid var(--theme-border);
+  border-radius: 8px;
+}
+
+.switch__link {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 14px;
+  color: var(--theme-text-tertiary);
+}
+
+.switch__link:hover {
+  color: var(--theme-text-primary);
+  text-decoration: none;
+}
+
+.switch__link[aria-current="page"] {
+  background: var(--theme-grey-800);
+  color: var(--theme-grey-100);
+}
+
+.switch__link:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 1px;
+}

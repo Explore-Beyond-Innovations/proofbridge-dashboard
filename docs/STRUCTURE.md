@@ -8,27 +8,30 @@ CSV bytes, same cache times and timeouts.
 
 ```
 src/
-  app/                      routes only: layout.tsx, page.tsx, globals.css, favicon.ico, fonts/,
-                            soak/[id]/page.tsx, soak/[id]/{bridges,disputes}.csv/route.ts
+  app/                      routes only: layout.tsx, page.tsx, [network]/page.tsx, globals.css, favicon.ico,
+                            fonts/, soak/[id]/page.tsx, soak/[id]/{bridges,disputes}.csv/route.ts
   components/
-    layout/                 Logo, TopBar (logo + title + status pill), Footer
+    layout/                 Logo, TopBar (logo + title + network switch + status pill), NetworkSwitch, Footer
     ui/                     Section, Metric, Table, ExternalLink, StatusPill, Split
     charts/                 SpeedBars, DailyBars, niceTicks
-    network/                the home page's parts: NetworkStatus, StatTiles, DailyBridges, DisputeOutcomes,
-                            DisputeList (the soak page reuses it), VolumePerToken
+    network/                the network page: NetworkPage (shared by / and [network]), ComingSoon, NetworkStatus,
+                            StatTiles, DailyBridges, DisputeOutcomes, DisputeList (the soak page reuses it),
+                            VolumePerToken
     soak/                   Report, SoakStatus, Scorecard, Operators, Bridges, Disputes, Performance, Incidents,
                             Unavailable
   lib/
-    config.ts               the relayer base URL default, the fetch timeout and the revalidate times (one place)
+    config.ts               the networks (NETWORKS, getNetwork; the only reader of their env vars), the fetch
+                            timeout and the revalidate times (one place)
     api/                    http.ts (fetch JSON with a timeout, to a result), network-stats.ts,
                             soak-snapshots.ts, csv-response.ts
     format/                 numbers, dates, chains (one chainName), explorer (links and address shapes), text
-    network/                types.ts, parse.ts, view.ts (dispute rows, fillDaily)
+    network/                types.ts, parse.ts, view.ts (dispute rows, fillDaily), switch.ts (the switch's links)
     soak/                   types.ts, parse.ts, labels.ts, csv.ts
-  styles/                   tokens.css, base.css, layout/{top-bar,footer}.css, ui/{metric,section,split-rows,table}.css,
-                            charts/{speed-bars,daily-bars}.css, soak/report.css, responsive.css
+  styles/                   tokens.css, base.css, layout/{top-bar,network-switch,footer}.css,
+                            ui/{metric,section,split-rows,table}.css, charts/{speed-bars,daily-bars}.css, soak/report.css,
+                            network/coming-soon.css, responsive.css
 tests/
-  lib/{api,format,network,soak}/*.spec.ts   mirror src/lib
+  lib/config.spec.ts, lib/{api,format,network,soak}/*.spec.ts   mirror src/lib
   app/soak/csv-routes.spec.ts               the two CSV route handlers
   fixtures/                                 network-stats.ts, soak-snapshot.ts, stub-fetch.ts
 ```
@@ -44,8 +47,9 @@ tests/
   dates, chain names, explorer links, short ids); `network/` and `soak/` are each endpoint's types, parsing and labels.
 - `src/styles`: one file per area. The cascade is order-sensitive (the responsive blocks at the end override rules from
   every area, and `.stats--inset` must follow `.stats`), so the files are cut from `globals.css` in its own order, and
-  `src/app/globals.css` imports them in that order. Some areas therefore have more than one file, and there is no
-  `network` stylesheet: the home page only uses shared classes.
+  `src/app/globals.css` imports them in that order. Some areas therefore have more than one file. New files go in
+  before `responsive.css`: `network-switch.css` after the top bar, `network/coming-soon.css` (the mainnet card) after
+  the soak report.
 - `tests`: one spec per lib module, same path under `tests/lib`.
 
 ## Imports
