@@ -1,21 +1,13 @@
 import { DailyBars, Logo, Metric, Section, SpeedBars } from "@/app/components"
-import { getNetworkStats } from "@/lib/stats"
-import {
-  DASH,
-  chainName,
-  completionText,
-  countText,
-  disputeRows,
-  disputeTotal,
-  durationText,
-  fillDaily,
-  proveText,
-  tokenAmount,
-  updatedText,
-} from "@/lib/view"
+import { getNetworkStats } from "@/lib/api/network-stats"
+import { chainName } from "@/lib/format/chains"
+import { timeText } from "@/lib/format/dates"
+import { completionText, countText, durationText, proveText, tokenAmount } from "@/lib/format/numbers"
+import { DASH } from "@/lib/format/text"
+import { disputeRows, disputeTotal, fillDaily } from "@/lib/network/view"
 
 // D1: rebuilt on the server at most once a minute, matching the relayer's 60 s cache.
-export const revalidate = 60
+export const revalidate = 60 // NETWORK_REVALIDATE in lib/config.ts; Next needs a literal
 
 export default async function Page() {
   const stats = await getNetworkStats()
@@ -30,7 +22,7 @@ export default async function Page() {
         {stats ? (
           <span className="pill">
             <span className="dot dot--ok" aria-hidden />
-            Updated {updatedText(stats.generatedAt)}
+            Updated {timeText(stats.generatedAt)}
           </span>
         ) : (
           <span className="pill pill--warn">

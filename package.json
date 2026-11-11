@@ -17,7 +17,7 @@
     "build": "next build --turbopack",
     "start": "next start -p 3100",
     "lint": "next lint",
-    "test": "node --test tests/*.spec.ts"
+    "test": "node --test \"tests/**/*.spec.ts\""
   },
   "dependencies": {
     "next": "15.5.15",

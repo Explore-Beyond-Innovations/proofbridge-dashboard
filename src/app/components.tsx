@@ -1,5 +1,6 @@
 // Shared by the home page and the soak report page.
-import { countText, type NetworkStats } from "@/lib/view"
+import { countText } from "@/lib/format/numbers"
+import type { NetworkStats } from "@/lib/network/types"
 
 // The app's mark (apps/frontend Logo), in currentColor so it follows the theme.
 export function Logo() {

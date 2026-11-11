@@ -1,31 +1,18 @@
 import type { Metadata } from "next"
 import { notFound } from "next/navigation"
 import { DailyBars, Logo, Metric, Section, SpeedBars } from "@/app/components"
-import { getSoakSnapshot } from "@/lib/soak-fetch"
-import {
-  BRIDGE_ROWS,
-  accountText,
-  addressUrl,
-  chainName,
-  chainOfAddress,
-  dayText,
-  kindText,
-  lastInstant,
-  legChains,
-  metLabel,
-  outcomeLabel,
-  paragraphs,
-  roleText,
-  safeUrl,
-  short,
-  timeText,
-  windowText,
-  type SoakSnapshot,
-} from "@/lib/soak"
-import { DASH, countText, disputeRows, durationText, fillDaily, proveText, tokenAmount } from "@/lib/view"
+import { getSoakSnapshot } from "@/lib/api/soak-snapshots"
+import { chainName } from "@/lib/format/chains"
+import { dayText, lastInstant, timeText, windowText } from "@/lib/format/dates"
+import { addressUrl, chainOfAddress, safeUrl } from "@/lib/format/explorer"
+import { countText, durationText, proveText, tokenAmount } from "@/lib/format/numbers"
+import { DASH, kindText, paragraphs, short } from "@/lib/format/text"
+import { disputeRows, fillDaily } from "@/lib/network/view"
+import { BRIDGE_ROWS, accountText, legChains, metLabel, outcomeLabel, roleText } from "@/lib/soak/labels"
+import type { SoakSnapshot } from "@/lib/soak/types"
 
 // Plan 158: snapshots are frozen; rebuilt at most every 5 min, matching the relayer's cache.
-export const revalidate = 300
+export const revalidate = 300 // SOAK_REVALIDATE in lib/config.ts; Next needs a literal
 
 export const metadata: Metadata = { title: "Soak report · ProofBridge Dashboard" }
 
