@@ -3,9 +3,8 @@ import { FETCH_TIMEOUT_MS, apiBase } from "../config.ts"
 /** ok with the parsed body; otherwise the HTTP status, or null when the fetch or the JSON failed. */
 export type JsonResult = { ok: true; body: unknown } | { ok: false; status: number | null }
 
-/** A server-side GET of a relayer path, revalidated by Next's data cache, with a timeout. */
-export async function getJson(path: string, revalidate: number): Promise<JsonResult> {
-  const base = apiBase()
+/** A server-side GET of a relayer path (the testnet relayer unless a base is given), revalidated by Next's data cache, with a timeout. */
+export async function getJson(path: string, revalidate: number, base = apiBase()): Promise<JsonResult> {
   try {
     const res = await fetch(`${base}${path}`, {
       next: { revalidate },
