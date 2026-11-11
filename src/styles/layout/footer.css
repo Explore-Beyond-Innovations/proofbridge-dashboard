@@ -1,0 +1,7 @@
+/* Footer: the small muted line under each page. */
+
+.footer {
+  font-size: 13px;
+  line-height: 1.6;
+  color: var(--theme-text-muted);
+}

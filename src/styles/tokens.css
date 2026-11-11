@@ -1,0 +1,50 @@
+/* Tokens mirror apps/frontend/app/globals.css (the user app's theme). Dark is the default. */
+:root {
+  color-scheme: dark;
+
+  --primary-color: #5265ec;
+  --secondary-color: #3b4eff;
+  --radius: 0.625rem;
+
+  --theme-bg: #1a1a1a;
+  --theme-text-primary: #ffffff;
+  --theme-text-secondary: #e5e5e5;
+  --theme-text-tertiary: #b3b3b3;
+  --theme-text-muted: #999999;
+  --theme-disabled: #333333;
+  --theme-link: #748bf0;
+
+  --theme-grey-1000: #1a1a1a;
+  --theme-grey-900: #262626;
+  --theme-grey-800: #404040;
+  --theme-grey-100: #ffffff;
+
+  --theme-border: #333333;
+  --theme-card-bg: #262626;
+
+  --ok: #11ba3b;
+  --warn: #f59e0b;
+}
+
+@media (prefers-color-scheme: light) {
+  :root {
+    color-scheme: light;
+
+    --theme-bg: #ffffff;
+    --theme-text-primary: #1a1a1a;
+    --theme-text-secondary: #333333;
+    --theme-text-tertiary: #666666;
+    --theme-text-muted: #999999;
+    --theme-disabled: #f2f2f2;
+    --theme-link: #3355ff;
+
+    --theme-grey-1000: #ffffff;
+    --theme-grey-900: #f8f8f8;
+    --theme-grey-800: #e5e5e5;
+    --theme-grey-100: #1a1a1a;
+
+    --theme-border: rgba(0, 0, 0, 0.12);
+    --theme-card-bg: #f5f5f5;
+    --warn: #b45309;
+  }
+}
