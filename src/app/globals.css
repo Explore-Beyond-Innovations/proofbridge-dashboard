@@ -2,6 +2,7 @@
 @import "../styles/tokens.css";
 @import "../styles/base.css";
 @import "../styles/layout/top-bar.css";
+@import "../styles/layout/network-switch.css";
 @import "../styles/ui/metric.css";
 @import "../styles/charts/speed-bars.css";
 @import "../styles/ui/section.css";
@@ -10,4 +11,5 @@
 @import "../styles/layout/footer.css";
 @import "../styles/ui/table.css";
 @import "../styles/soak/report.css";
+@import "../styles/network/coming-soon.css";
 @import "../styles/responsive.css";

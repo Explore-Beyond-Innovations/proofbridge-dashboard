@@ -2,10 +2,11 @@ export function Footer({ children }: { children: React.ReactNode }) {
   return <p className="footer">{children}</p>
 }
 
-export function NetworkFooter() {
+// D5: the app link follows the network.
+export function NetworkFooter({ appUrl }: { appUrl: string }) {
   return (
     <Footer>
-      Track the live bridge at <a href="https://app.pfbridge.xyz">app.pfbridge.xyz</a> · Read the docs at{" "}
+      Track the live bridge at <a href={appUrl}>{new URL(appUrl).host}</a> · Read the docs at{" "}
       <a href="https://docs.pfbridge.xyz">docs.pfbridge.xyz</a> · Follow on{" "}
       <a href="https://github.com/Explore-Beyond-Innovations/ProofBridge">GitHub</a>.
     </Footer>
