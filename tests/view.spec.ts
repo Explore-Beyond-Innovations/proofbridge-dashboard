@@ -14,7 +14,7 @@ import {
   proveText,
   tokenAmount,
   updatedText,
-} from "../lib/view.ts"
+} from "../src/lib/view.ts"
 
 // Trimmed from a real staging response (2026-11-11).
 const sample = () => ({

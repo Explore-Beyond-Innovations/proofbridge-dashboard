@@ -17,10 +17,10 @@ import {
   safeUrl,
   short,
   windowText,
-} from "../lib/soak.ts"
-import { getSoakSnapshot } from "../lib/soak-fetch.ts"
-import { GET as bridgesGET } from "../app/soak/[id]/bridges.csv/route.ts"
-import { GET as disputesGET } from "../app/soak/[id]/disputes.csv/route.ts"
+} from "../src/lib/soak.ts"
+import { getSoakSnapshot } from "../src/lib/soak-fetch.ts"
+import { GET as bridgesGET } from "../src/app/soak/[id]/bridges.csv/route.ts"
+import { GET as disputesGET } from "../src/app/soak/[id]/disputes.csv/route.ts"
 import { snapshotBody } from "./soak-fixture.ts"
 
 const realFetch = globalThis.fetch
