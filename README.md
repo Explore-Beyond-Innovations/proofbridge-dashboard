@@ -27,6 +27,29 @@ relayer caches it for 60 s.
 If the API can't be reached or returns something unexpected, every tile shows "—" and the top bar says "Stats
 unavailable right now". The page itself never fails.
 
+## Soak report page
+
+`/soak/<id>` shows one published soak report snapshot (plan 158). An admin publishes it from the backoffice, and the
+page gives reviewers a public link to it with no sign-in.
+
+In plain terms: the snapshot is frozen when it is published, so the page shows exactly the numbers the team saw. It
+comes from the relayer's public `GET /v1/soak-reports/:id`, which returns `{ id, publishedAt, window, incidents,
+report }`; `report` is the backoffice's soak report.
+
+The page shows the window and publish date, the scorecard (Met, Not met, or Check by hand where the team checks a
+criterion itself), the operators, the first 50 bridges with both unlock links, the disputes, performance (medians,
+outcomes and volume are all time, and labelled so), and the team's incident notes as plain paragraphs. Explorer
+links open in a new tab.
+
+| Route | What it returns |
+| --- | --- |
+| `/soak/<id>` | The report page. An unknown or taken-down id is a 404. If the relayer fails, the page says the report is unavailable. |
+| `/soak/<id>/bridges.csv` | Every bridge: trade id, settled time, and the unlock tx, URL and time per chain. |
+| `/soak/<id>/disputes.csv` | Every dispute: case, trade, dates, filer, outcome, and its transaction links. |
+
+The CSVs quote fields the same way as the backoffice's writer. They return 404 for an unknown id and 503 if the
+relayer fails. The page and the CSVs are rebuilt at most every 5 minutes, which matches the relayer's cache.
+
 ## Configuration
 
 | Variable | Required | Default | Notes |
@@ -42,7 +65,7 @@ Node 24 or later and pnpm 10.
 ```bash
 pnpm install
 pnpm dev      # http://localhost:3100
-pnpm test     # the view rules (node's built-in test runner)
+pnpm test     # the view rules and the soak CSV routes (node's built-in test runner)
 pnpm build
 pnpm start    # serves the build on :3100
 ```
@@ -63,3 +86,6 @@ unavailable" until the next refresh.
 - `lib/stats.ts`: the server-side fetch, with an 8 s timeout and a 60 s revalidate.
 - `lib/view.ts`: the pure view rules: parsing, number formats and outcome labels. They are covered by
   `tests/view.spec.ts`.
+- `app/soak/[id]/`: the soak report page and its two CSV routes; `app/components.tsx` holds the parts both pages use.
+- `lib/soak.ts` and `lib/soak-fetch.ts`: the soak snapshot's parsing, labels and CSVs, and its fetch. They are covered
+  by `tests/soak.spec.ts`.
