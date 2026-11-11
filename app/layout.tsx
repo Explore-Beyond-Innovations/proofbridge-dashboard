@@ -3,7 +3,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "ProofBridge Dashboard",
-  description: "ProofBridge analytics dashboard — currently under development.",
+  description: "ProofBridge network stats: bridges, dispute outcomes and proof times over the last 30 days.",
   robots: { index: false, follow: false },
 };
 
