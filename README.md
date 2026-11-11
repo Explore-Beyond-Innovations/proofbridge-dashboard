@@ -65,7 +65,7 @@ Node 24 or later and pnpm 10.
 ```bash
 pnpm install
 pnpm dev      # http://localhost:3100
-pnpm test     # the view rules and the soak CSV routes (node's built-in test runner)
+pnpm test     # the lib rules and the soak CSV routes (node's built-in test runner)
 pnpm build
 pnpm start    # serves the build on :3100
 ```
@@ -82,10 +82,14 @@ unavailable" until the next refresh.
 
 ## Layout
 
-- `app/`: the page, its layout and styles, plus the Google Sans Flex font files.
-- `lib/stats.ts`: the server-side fetch, with an 8 s timeout and a 60 s revalidate.
-- `lib/view.ts`: the pure view rules: parsing, number formats and outcome labels. They are covered by
-  `tests/view.spec.ts`.
-- `app/soak/[id]/`: the soak report page and its two CSV routes; `app/components.tsx` holds the parts both pages use.
-- `lib/soak.ts` and `lib/soak-fetch.ts`: the soak snapshot's parsing, labels and CSVs, and its fetch. They are covered
-  by `tests/soak.spec.ts`.
+[`docs/STRUCTURE.md`](docs/STRUCTURE.md) has the full map and the rule for what goes where.
+
+- `src/app/`: the routes only: the home page, the soak report page and its two CSV routes, the root layout, the font
+  files, and `globals.css`, which imports `src/styles/` in order.
+- `src/components/`: the page parts: `layout/` (logo, top bar, footer), `ui/`, `charts/`, and each page's sections in
+  `network/` and `soak/`.
+- `src/lib/config.ts`: the relayer base URL default, the 8 s fetch timeout, and the 60 s and 300 s revalidate times.
+- `src/lib/api/`: the server-side fetches and the CSV response.
+- `src/lib/format/`: numbers, dates, chain names, explorer links and short ids, shared by both pages.
+- `src/lib/network/` and `src/lib/soak/`: each endpoint's types, parsing and labels, plus the soak CSV writers.
+- `tests/`: one spec per lib module under `tests/lib/`, the CSV routes under `tests/app/`, and the fixtures.

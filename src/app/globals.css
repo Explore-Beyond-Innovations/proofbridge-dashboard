@@ -1,0 +1,13 @@
+/* Cut from the original single file in its own order; the cascade depends on it (see docs/STRUCTURE.md). */
+@import "../styles/tokens.css";
+@import "../styles/base.css";
+@import "../styles/layout/top-bar.css";
+@import "../styles/ui/metric.css";
+@import "../styles/charts/speed-bars.css";
+@import "../styles/ui/section.css";
+@import "../styles/charts/daily-bars.css";
+@import "../styles/ui/split-rows.css";
+@import "../styles/layout/footer.css";
+@import "../styles/ui/table.css";
+@import "../styles/soak/report.css";
+@import "../styles/responsive.css";

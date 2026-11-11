@@ -1,0 +1,69 @@
+/* Header: the app's network page top bar (mark + title left, status pill right) */
+.topbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  min-height: 58px;
+  padding: 12px 80px;
+  border-bottom: 1px solid var(--theme-border);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  min-width: 0;
+}
+
+.logo {
+  flex-shrink: 0;
+  color: var(--theme-grey-100);
+}
+
+.brand h1 {
+  font-size: 14px;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+  color: var(--theme-grey-100);
+}
+
+.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  min-height: 36px;
+  max-width: 100%;
+  padding: 6px 12px;
+  border: 1px solid var(--theme-border);
+  border-radius: 8px;
+  font-size: 14px;
+  color: var(--theme-text-secondary);
+}
+
+.pill--warn {
+  color: var(--warn);
+}
+
+.dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+  border-radius: 999px;
+}
+
+.dot--ok {
+  background: var(--ok);
+}
+
+.dot--warn {
+  background: var(--warn);
+}
+
+.intro {
+  padding: 24px 80px 0;
+  font-size: 14px;
+  line-height: 1.5;
+  color: var(--theme-text-tertiary);
+}
