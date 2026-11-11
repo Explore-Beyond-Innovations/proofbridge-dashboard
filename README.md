@@ -27,6 +27,20 @@ relayer caches it for 60 s.
 If the API can't be reached or returns something unexpected, every tile shows "—" and the top bar says "Stats
 unavailable right now". The page itself never fails.
 
+## Networks
+
+The top bar has a **Testnet | Mainnet** switch. It is two plain links, so each network has its own URL.
+
+| Route | What it shows |
+| --- | --- |
+| `/` and `/testnet` | The testnet stats. |
+| `/mainnet` | "Mainnet is coming soon" and a link to the testnet stats, until `MAINNET_LIVE=true`. Then the mainnet stats. |
+
+Any other first path segment is a 404. While mainnet isn't live, its page never calls a relayer. The soak pages
+always read the testnet relayer, because the snapshots come from the testnet soak. The pages read the variables when
+they are rebuilt, so a change shows up within a minute of a restart. [`docs/NETWORKS.md`](docs/NETWORKS.md) has the
+decisions.
+
 ## Soak report page
 
 `/soak/<id>` shows one published soak report snapshot (plan 158). An admin publishes it from the backoffice, and the
@@ -54,9 +68,14 @@ relayer fails. The page and the CSVs are rebuilt at most every 5 minutes, which 
 
 | Variable | Required | Default | Notes |
 | --- | --- | --- | --- |
-| `STATS_API_URL` | no | `https://api-staging.pfbridge.xyz` | The relayer base URL. Read on the server only. |
+| `STATS_API_URL_TESTNET` | no | `STATS_API_URL` | The testnet relayer base URL. |
+| `STATS_API_URL` | no | `https://api-staging.pfbridge.xyz` | The testnet fallback, so today's deploys keep working. Never mainnet. |
+| `STATS_API_URL_MAINNET` | no | `https://api.pfbridge.xyz` | The mainnet relayer base URL. |
+| `APP_URL_TESTNET` | no | `https://staging.pfbridge.xyz` | The app link on the testnet page. |
+| `APP_URL_MAINNET` | no | `https://app.pfbridge.xyz` | The app link on the mainnet page. |
+| `MAINNET_LIVE` | no | unset | Only `true` turns on the mainnet stats. Anything else shows "coming soon". |
 
-Nothing else is needed: there are no secrets and no `NEXT_PUBLIC_` variables.
+All of them are read on the server only, in `src/lib/config.ts`. There are no secrets and no `NEXT_PUBLIC_` variables.
 
 ## Develop
 
@@ -84,11 +103,12 @@ unavailable" until the next refresh.
 
 [`docs/STRUCTURE.md`](docs/STRUCTURE.md) has the full map and the rule for what goes where.
 
-- `src/app/`: the routes only: the home page, the soak report page and its two CSV routes, the root layout, the font
-  files, and `globals.css`, which imports `src/styles/` in order.
-- `src/components/`: the page parts: `layout/` (logo, top bar, footer), `ui/`, `charts/`, and each page's sections in
-  `network/` and `soak/`.
-- `src/lib/config.ts`: the relayer base URL default, the 8 s fetch timeout, and the 60 s and 300 s revalidate times.
+- `src/app/`: the routes only: the home page, `[network]` (`/testnet` and `/mainnet`), the soak report page and its
+  two CSV routes, the root layout, the font files, and `globals.css`, which imports `src/styles/` in order.
+- `src/components/`: the page parts: `layout/` (logo, top bar, network switch, footer), `ui/`, `charts/`, and each
+  page's sections in `network/` and `soak/`.
+- `src/lib/config.ts`: the two networks (relayer URL, app link, live) and their variables, the 8 s fetch timeout, and
+  the 60 s and 300 s revalidate times.
 - `src/lib/api/`: the server-side fetches and the CSV response.
 - `src/lib/format/`: numbers, dates, chain names, explorer links and short ids, shared by both pages.
 - `src/lib/network/` and `src/lib/soak/`: each endpoint's types, parsing and labels, plus the soak CSV writers.
